@@ -19,18 +19,24 @@ export const CakeScene: React.FC<Props> = ({ isLit, onLight, onBlowStart }) => {
   }, [isLit]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isLit || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setLighterPos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    if (isLit) return;
+    
+    // Use the ref to get the bounding rectangle of the container
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setLighterPos({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (isLit || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    if (e.touches.length > 0) {
+    if (isLit) return;
+    
+    // Use the ref to get the bounding rectangle of the container
+    if (containerRef.current && e.touches.length > 0) {
+      const rect = containerRef.current.getBoundingClientRect();
       setLighterPos({
         x: e.touches[0].clientX - rect.left,
         y: e.touches[0].clientY - rect.top,
