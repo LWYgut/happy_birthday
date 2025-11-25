@@ -1,7 +1,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { GeminiResponse } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Note: This service might be unused in the offline version, but kept for type consistency.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
 
 export const generateBirthdayMessage = async (): Promise<string> => {
   try {
