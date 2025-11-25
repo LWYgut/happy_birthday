@@ -15,11 +15,14 @@ export const BlowScene: React.FC<Props> = ({ onBlowOut }) => {
   const [volume, setVolume] = useState(0);
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
+  // Define threshold constant
+  const BLOW_THRESHOLD = 60;
+
   useEffect(() => {
     const startMedia = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { facingMode: 'user' }, 
+          // Removed video requirement since we only need audio
           audio: true 
         });
 
@@ -76,7 +79,8 @@ export const BlowScene: React.FC<Props> = ({ onBlowOut }) => {
       
       setVolume(average);
 
-      if (average > 80) { // Threshold
+      // Threshold check
+      if (average > BLOW_THRESHOLD) { 
         handleBlowSuccess();
         return; 
       }
@@ -95,26 +99,20 @@ export const BlowScene: React.FC<Props> = ({ onBlowOut }) => {
   };
 
   return (
-    <div className="relative h-full w-full bg-black flex flex-col items-center justify-center overflow-hidden">
+    <div className="relative h-full w-full bg-slate-900 flex flex-col items-center justify-center overflow-hidden">
       
-      {/* Background Camera Feed */}
-      {hasPermission !== false && (
-        <video 
-          ref={videoRef}
-          autoPlay 
-          playsInline 
-          muted 
-          className="absolute inset-0 w-full h-full object-cover opacity-40 transform scale-x-[-1]" 
-        />
-      )}
-
-      {/* Background Overlay for Ambience */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none"></div>
+      {/* Background Ambience (Matching CakeScene) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-purple-950 to-slate-900 pointer-events-none">
+         {/* Simulated Bokeh Lights */}
+         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-pulse"></div>
+         <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[120px] opacity-10"></div>
+         <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-pink-600 rounded-full mix-blend-screen filter blur-[100px] opacity-15 animate-pulse" style={{ animationDuration: '4s' }}></div>
+      </div>
 
       {/* Instructions Overlay */}
       <div className="absolute top-16 z-50 flex flex-col items-center w-full animate-bounce px-4 text-center">
          <h2 className="text-2xl md:text-3xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-             {isLit ? "请对准蜡烛用力吹气 🌬️" : "愿望达成！✨"}
+             {isLit ? "请对准麦克风吹气 🌬️" : "愿望达成！✨"}
          </h2>
          {isLit && <p className="text-white/80 text-sm mt-2 font-light">许个愿，然后吹灭它！</p>}
       </div>
@@ -185,7 +183,8 @@ export const BlowScene: React.FC<Props> = ({ onBlowOut }) => {
              <div className="absolute bottom-32 w-48 h-2 bg-gray-700/50 rounded-full overflow-hidden backdrop-blur-sm">
                 <div 
                   className="h-full bg-green-400 transition-all duration-100 ease-out shadow-[0_0_10px_#4ade80]"
-                  style={{ width: `${Math.min(volume, 100)}%` }}
+                  // Normalize width based on threshold. If 30 volume / 60 threshold = 50% width.
+                  style={{ width: `${!isLit ? 100 : Math.min((volume / BLOW_THRESHOLD) * 100, 100)}%` }}
                 ></div>
               </div>
         </>
