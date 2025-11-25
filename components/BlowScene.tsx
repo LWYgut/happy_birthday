@@ -112,15 +112,15 @@ export const BlowScene: React.FC<Props> = ({ onBlowOut }) => {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none"></div>
 
       {/* Instructions Overlay */}
-      <div className="absolute top-12 z-50 flex flex-col items-center w-full animate-bounce">
-         <h2 className="text-3xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+      <div className="absolute top-16 z-50 flex flex-col items-center w-full animate-bounce px-4 text-center">
+         <h2 className="text-2xl md:text-3xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
              {isLit ? "请对准蜡烛用力吹气 🌬️" : "愿望达成！✨"}
          </h2>
          {isLit && <p className="text-white/80 text-sm mt-2 font-light">许个愿，然后吹灭它！</p>}
       </div>
 
-      {/* CAKE VISUALS (Same as CakeScene) */}
-      <div className="relative mt-20 transform scale-125 md:scale-150 z-20">
+      {/* CAKE VISUALS (Scale adjusted for Portrait) */}
+      <div className="relative mt-20 transform scale-90 md:scale-150 z-20">
         {/* Plate */}
         <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-64 h-8 bg-gray-200 rounded-[50%] shadow-xl"></div>
         

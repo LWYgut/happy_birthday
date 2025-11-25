@@ -7,10 +7,10 @@ interface Props {
 
 export const IntroScene: React.FC<Props> = ({ onOpen }) => {
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full bg-gradient-to-b from-pink-300 via-pink-400 to-purple-400 relative overflow-hidden">
+    <div className="flex flex-col items-center justify-center h-full w-full bg-gradient-to-b from-pink-300 via-pink-400 to-purple-400 relative overflow-hidden px-4">
       <Confetti />
-      <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-md mb-12 text-center animate-bounce font-serif tracking-wider" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.2)' }}>
-        恭喜公主 24 岁啦！
+      <h1 className="text-4xl md:text-7xl font-bold text-white drop-shadow-md mb-12 text-center animate-bounce font-serif tracking-wider leading-tight" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.2)' }}>
+        恭喜公主<br/>24 岁啦！
       </h1>
       
       <div 
@@ -71,7 +71,7 @@ export const IntroScene: React.FC<Props> = ({ onOpen }) => {
 
       <button 
         onClick={onOpen}
-        className="mt-20 px-12 py-4 bg-white/90 backdrop-blur-sm text-pink-600 text-xl font-bold rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all z-20 border-2 border-pink-200 animate-pulse hover:animate-none"
+        className="mt-16 px-10 py-3 bg-white/90 backdrop-blur-sm text-pink-600 text-lg md:text-xl font-bold rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all z-20 border-2 border-pink-200 animate-pulse hover:animate-none"
       >
         点击打开包装 🎁
       </button>

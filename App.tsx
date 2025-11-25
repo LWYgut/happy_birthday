@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Scene } from './types';
 import { IntroScene } from './components/IntroScene';
 import { CakeScene } from './components/CakeScene';
@@ -8,17 +8,7 @@ import { HAPPY_BIRTHDAY_MUSIC_URL } from './constants';
 
 const App: React.FC = () => {
   const [scene, setScene] = useState<Scene>(Scene.Intro);
-  const [isPortrait, setIsPortrait] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    const checkOrientation = () => {
-      setIsPortrait(window.innerHeight > window.innerWidth);
-    };
-    window.addEventListener('resize', checkOrientation);
-    checkOrientation();
-    return () => window.removeEventListener('resize', checkOrientation);
-  }, []);
 
   const playMusic = () => {
     if (!audioRef.current) {
@@ -32,16 +22,6 @@ const App: React.FC = () => {
   const stopMusic = () => {
     if (audioRef.current) {
       audioRef.current.pause();
-    }
-  };
-
-  const handleNextScene = () => {
-    if (scene === Scene.Intro) {
-      setScene(Scene.CakeClosed);
-    } else if (scene === Scene.CakeClosed) {
-      setScene(Scene.CakeOpen);
-      // Wait a moment then transition to wish automatically or via lighting?
-      // Design: CakeClosed -> User Lights -> Wish -> Blow
     }
   };
 
@@ -63,16 +43,6 @@ const App: React.FC = () => {
     stopMusic();
     setScene(Scene.Celebration);
   };
-
-  if (isPortrait) {
-    return (
-      <div className="h-screen w-screen bg-black text-white flex flex-col items-center justify-center p-8 text-center">
-        <div className="text-4xl mb-4">📱➡️🔄</div>
-        <h1 className="text-2xl font-bold mb-2">请横屏观看</h1>
-        <p className="text-gray-400">为了最好的体验，请旋转手机<br/>(Please rotate your phone)</p>
-      </div>
-    );
-  }
 
   return (
     <div className="h-screen w-screen overflow-hidden font-sans select-none">

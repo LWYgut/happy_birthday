@@ -75,9 +75,12 @@ export const CelebrationScene: React.FC = () => {
     // Define drone formation points (spelling "24")
     const points: {x: number, y: number, color: string, phase: number}[] = [];
     
-    // ADJUSTED CENTER Y: Moved up from 1/3 to 1/5 to avoid overlap with the card
+    // PORTRAIT MODE ADJUSTMENTS:
     const centerX = canvas.width / 2;
-    const centerY = canvas.height / 5; 
+    // Keep drones relatively high up
+    const centerY = canvas.height * 0.2; 
+    // Use smaller spacing for mobile screens to ensure "24" fits
+    const spacing = Math.min(canvas.width / 12, 30); 
 
     // A simple "2" shape
     const shape2 = [[0,0], [1,0], [2,0], [2,1], [2,2], [1,2], [0,2], [0,3], [0,4], [1,4], [2,4]];
@@ -87,8 +90,8 @@ export const CelebrationScene: React.FC = () => {
     // Convert logic grid to canvas coordinates
     [...shape2, ...shape4].forEach(([px, py], index) => {
       points.push({
-        x: centerX + (px - 3) * 40, // Offset to center and scale up
-        y: centerY + (py - 2) * 40,
+        x: centerX + (px - 3) * spacing, // Offset to center
+        y: centerY + (py - 2) * spacing,
         color: '#00FFFF', // Cyan drones
         phase: Math.random() * Math.PI * 2
       });
@@ -118,7 +121,7 @@ export const CelebrationScene: React.FC = () => {
         
         ctx.fillStyle = p.color;
         ctx.beginPath();
-        ctx.arc(p.x, p.y + hoverY, 4, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y + hoverY, 3, 0, Math.PI * 2);
         ctx.fill();
         
         // Drone Glow
@@ -136,7 +139,7 @@ export const CelebrationScene: React.FC = () => {
   }, []);
 
   return (
-    <div className="h-full w-full bg-slate-950 relative flex flex-col items-center justify-center pb-20 overflow-hidden">
+    <div className="h-full w-full bg-slate-950 relative flex flex-col items-center justify-between pb-10 overflow-hidden">
       
       {/* Background Blooming Fireworks (CSS Animation) */}
       <style>{`
@@ -162,14 +165,17 @@ export const CelebrationScene: React.FC = () => {
 
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-60 pointer-events-none z-10" />
       
+      {/* Spacer to push card down */}
+      <div className="flex-grow"></div>
+
       {/* Message Card */}
-      <div className="relative z-20 bg-white/10 backdrop-blur-md p-10 md:p-14 rounded-3xl border border-white/20 max-w-3xl text-center mx-4 animate-float shadow-[0_0_50px_rgba(255,105,180,0.3)] transform hover:scale-105 transition-transform duration-500 mt-20">
-        <h1 className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-yellow-200 to-pink-300 drop-shadow-lg mb-8 animate-pulse">
+      <div className="relative z-20 bg-white/10 backdrop-blur-md p-8 md:p-14 rounded-3xl border border-white/20 max-w-sm md:max-w-3xl text-center mx-4 animate-float shadow-[0_0_50px_rgba(255,105,180,0.3)] transform hover:scale-105 transition-transform duration-500 mb-20">
+        <h1 className="text-3xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-yellow-200 to-pink-300 drop-shadow-lg mb-6 animate-pulse">
             ✨ 生日快乐 ✨
         </h1>
-        <p className="text-2xl md:text-4xl text-white font-serif tracking-wider leading-relaxed drop-shadow-md">
+        <p className="text-xl md:text-4xl text-white font-serif tracking-wider leading-relaxed drop-shadow-md">
            恭喜小宝<br/>
-           <span className="text-3xl md:text-5xl text-yellow-300 mt-4 block font-bold">
+           <span className="text-2xl md:text-5xl text-yellow-300 mt-4 block font-bold">
              获得惊喜小礼物 🎁
            </span>
         </p>
