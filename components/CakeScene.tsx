@@ -77,8 +77,15 @@ export const CakeScene: React.FC<Props> = ({ isLit, onLight, onBlowStart }) => {
 
       {isLit && (
         <div className="absolute top-12 w-full text-center z-20 animate-fade-in pointer-events-none px-4">
-           <h2 className="text-2xl md:text-3xl text-gold font-serif italic drop-shadow-md tracking-widest">许个愿吧，公主殿下...</h2>
+           <h2 className="text-2xl md:text-3xl text-gold font-serif italic drop-shadow-md tracking-widest">许个愿吧，公主殿下</h2>
            <p className="text-white/60 text-xs md:text-sm mt-2">闭上眼睛，在心里默念你的愿望</p>
+        </div>
+      )}
+
+      {/* Instruction text for lighting candles */}
+      {!isLit && (
+        <div className="absolute bottom-24 w-full text-center z-20 animate-bounce pointer-events-none">
+           <p className="text-white/90 text-xl font-bold drop-shadow-lg tracking-wide">点燃蜡烛 🔥</p>
         </div>
       )}
 
