@@ -14,7 +14,8 @@ const App: React.FC = () => {
     if (!audioRef.current) {
       audioRef.current = new Audio(HAPPY_BIRTHDAY_MUSIC_URL);
       audioRef.current.loop = true;
-      audioRef.current.volume = 0.5;
+      audioRef.current.volume = 1.0; // Set to max volume
+      audioRef.current.load(); // Ensure it loads
     }
     audioRef.current.play().catch(e => console.log("Audio play failed (user must interact first)", e));
   };

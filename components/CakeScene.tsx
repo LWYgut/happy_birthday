@@ -21,33 +21,48 @@ export const CakeScene: React.FC<Props> = ({ isLit, onLight, onBlowStart }) => {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isLit) return;
     
-    // Use the ref to get the bounding rectangle of the container
-    if (containerRef.current) {
+    // Defensive check: Ensure ref is attached and current
+    if (!containerRef.current) return;
+
+    try {
       const rect = containerRef.current.getBoundingClientRect();
       setLighterPos({
         x: e.clientX - rect.left,
         y: e.clientY - rect.top,
       });
+    } catch (err) {
+      console.error("Error calculating lighter position:", err);
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     if (isLit) return;
     
-    // Use the ref to get the bounding rectangle of the container
-    if (containerRef.current && e.touches.length > 0) {
-      const rect = containerRef.current.getBoundingClientRect();
-      setLighterPos({
-        x: e.touches[0].clientX - rect.left,
-        y: e.touches[0].clientY - rect.top,
-      });
+    // Prevent scrolling while dragging lighter
+    if (e.cancelable) {
+       e.preventDefault(); 
+    }
+    
+    // Defensive check: Ensure ref is attached and current
+    if (!containerRef.current) return;
+
+    if (e.touches.length > 0) {
+      try {
+        const rect = containerRef.current.getBoundingClientRect();
+        setLighterPos({
+          x: e.touches[0].clientX - rect.left,
+          y: e.touches[0].clientY - rect.top,
+        });
+      } catch (err) {
+        console.error("Error calculating lighter position:", err);
+      }
     }
   };
 
   return (
     <div 
       ref={containerRef}
-      className="flex flex-col items-center justify-center h-full w-full bg-slate-900 relative overflow-hidden"
+      className="flex flex-col items-center justify-center h-full w-full bg-slate-900 relative overflow-hidden touch-none"
       onMouseMove={handleMouseMove}
       onTouchMove={handleTouchMove}
       onClick={!isLit ? onLight : undefined}
@@ -110,7 +125,7 @@ export const CakeScene: React.FC<Props> = ({ isLit, onLight, onBlowStart }) => {
         </div>
       </div>
 
-      {/* Lighter Cursor (Custom visual) */}
+      {/* Lighter Cursor (Custom visual) - Text removed */}
       {!isLit && showLighter && (
         <div 
           className="absolute pointer-events-none transition-transform duration-75 z-50"
