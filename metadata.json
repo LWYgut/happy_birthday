@@ -1,0 +1,8 @@
+{
+  "name": "Princess's 24th Birthday",
+  "description": "A magical interactive birthday experience for her 24th birthday.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
